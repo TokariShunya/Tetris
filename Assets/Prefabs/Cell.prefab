@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5171142761092622671}
   - component: {fileID: 2919879203006246218}
-  - component: {fileID: 2123774787593203253}
+  - component: {fileID: -7799032390365210793}
   m_Layer: 0
-  m_Name: Block
+  m_Name: Cell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2123774787593203253
+--- !u!114 &-7799032390365210793
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,27 +95,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4792659135013672397}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e380656752cc1488c864d9f7f918abc1, type: 3}
+  m_Script: {fileID: 11500000, guid: e8b4bd4c728e3014bbb0718eadecd0d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 3343639943095818215}
-  _colors:
-  - ColorName: 0
-    Color: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
-  - ColorName: 1
-    Color: {r: 0, g: 0.5019608, b: 1, a: 1}
-  - ColorName: 2
-    Color: {r: 1, g: 1, b: 0, a: 1}
-  - ColorName: 3
-    Color: {r: 0.5019608, g: 0, b: 1, a: 1}
-  - ColorName: 4
-    Color: {r: 1, g: 0.5019608, b: 0, a: 1}
-  - ColorName: 5
-    Color: {r: 0, g: 0, b: 1, a: 1}
-  - ColorName: 6
-    Color: {r: 0, g: 1, b: 0, a: 1}
-  - ColorName: 7
-    Color: {r: 1, g: 0, b: 0, a: 1}
+  _blockRenderer: {fileID: 3343639943095818215}
 --- !u!1 &7031105153779844558
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,7 +110,7 @@ GameObject:
   - component: {fileID: 1009944192208597203}
   - component: {fileID: 3343639943095818215}
   m_Layer: 0
-  m_Name: Color
+  m_Name: Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -190,7 +173,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
