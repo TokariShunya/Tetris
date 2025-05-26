@@ -33,15 +33,15 @@ namespace Tetris.View
         /// Nextを描画する
         /// </summary>
         /// <param name="previews"></param>
-        public void DrawPrevies(IEnumerable<Tetrimino> previews)
+        public void DrawPreviews(IEnumerable<Tetrimino> previews)
         {
             if (_previewTetriminos is null)
             {
-                CreatePrevies(previews);
+                CreatePreviews(previews);
             }
             else
             {
-                UpdatePreview(previews);
+                UpdatePreviews(previews);
             }
         }
 
@@ -51,7 +51,7 @@ namespace Tetris.View
         /// <param name="hold"></param>
         public void DrawHold(Tetrimino hold)
         {
-            if (_holdTetrimino is null)
+            if (_holdTetrimino == null)
             {
                 CreateHold(hold);
             }
@@ -61,7 +61,7 @@ namespace Tetris.View
             }
         }
 
-        private void CreatePrevies(IEnumerable<Tetrimino> previews)
+        private void CreatePreviews(IEnumerable<Tetrimino> previews)
         {
             var previewList = new List<TetriminoUIBehaviour>();
 
@@ -80,7 +80,7 @@ namespace Tetris.View
             _previewTetriminos = previewList.ToArray();
         }
 
-        private void UpdatePreview(IEnumerable<Tetrimino> previews)
+        private void UpdatePreviews(IEnumerable<Tetrimino> previews)
         {
 
             var enumerator = previews.GetEnumerator();

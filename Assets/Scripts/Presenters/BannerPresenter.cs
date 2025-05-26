@@ -30,7 +30,7 @@ namespace Tetris.Presenter
             _previewDisposable = _board.OnUpdatePreviews
                 .Subscribe(previews =>
                 {
-                    _drawer.DrawPrevies(previews);
+                    _drawer.DrawPreviews(previews);
                 });
             
             _holdDisposable = _board.OnUpdateHold
