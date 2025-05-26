@@ -44,6 +44,7 @@ namespace Tetris.Logic
             _superRotationCorrection = Vector2Int.zero;
         }
 
+        public IEnumerable<Vector2Int> BlockInitialCoordinates => _initialCoordinates;
         public IEnumerable<Vector2Int> BlockPositions => _coordinates.Select(x => x + _position + _superRotationCorrection);
 
         public virtual Block Block => default;

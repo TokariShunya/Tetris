@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b91a606e41b33743b8ed1a2d8a2c0a5, type: 3}
-  m_Name: Settings
+  m_Script: {fileID: 11500000, guid: 31e366ba9da0848c7826c19e7d1920b4, type: 3}
+  m_Name: BoardSelector
   m_EditorClassIdentifier: 
-  _boardSize: {x: 10, y: 20}
-  _initialPosition: {x: 4, y: 18}
-  _cellPrefab: {fileID: -7799032390365210793, guid: 9a871e041d80246cb95e96d392503e10, type: 3}
+  _boardCreator:
+  - {fileID: 11400000, guid: 0b2377979f60048d19186d478d945f87, type: 2}
+  - {fileID: 11400000, guid: 709aca30242cf4315b4089191df99905, type: 2}
+  _selection: 0

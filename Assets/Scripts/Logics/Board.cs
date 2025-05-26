@@ -27,11 +27,17 @@ namespace Tetris.Logic
         private readonly Cell[,] _drawingCells;
 
         private readonly static int _space = 5;
-        private readonly static int _tetriminoPreviewCount = 6;
+        private readonly static int _tetriminoPreviewCount = 5;
         private readonly static Cell _filledCell = new Cell(new Block());
 
         private readonly ReplaySubject<Cell[,]> _onUpdateCells;
         public IObservable<Cell[,]> OnUpdateCells => _onUpdateCells.AsObservable();
+
+        private readonly ReplaySubject<IEnumerable<Tetrimino>> _onUpdatePreviews;
+        public IObservable<IEnumerable<Tetrimino>> OnUpdatePreviews => _onUpdatePreviews.AsObservable();
+
+        private readonly ReplaySubject<Tetrimino> _onUpdateHold;
+        public IObservable<Tetrimino> OnUpdateHold => _onUpdateHold.AsObservable();
 
         [Inject]
         public Board(bool[,] initialBoard, IEnumerable<Tetrimino> tetriminos)
@@ -74,6 +80,9 @@ namespace Tetris.Logic
             _holdTetrimino = null;
             _canHoldTetrimino = true;
 
+            _onUpdateHold = new ReplaySubject<Tetrimino>();
+            _onUpdateHold.OnNext(default);
+
             _tetriminoPreviews = new Queue<Tetrimino>();
 
             // ネクストにテトリミノをセット
@@ -86,9 +95,11 @@ namespace Tetris.Logic
             }
 
             // 現在のテトリミノをセット
+            _onUpdatePreviews = new ReplaySubject<IEnumerable<Tetrimino>>();
+
             Next();
 
-            // 描画イベント用
+            // 盤面描画用
             _drawingCells = new Cell[_size.x, _size.y];
 
             for (int i = 0; i < _size.x; i++)
@@ -111,6 +122,13 @@ namespace Tetris.Logic
             return _filledCell;
         }
 
+        private Cell GetDrawingCell(int x, int y)
+        {
+            if (x >= 0 && x < _size.x && y >= 0 && y < _size.y) return _drawingCells[x, y];
+
+            return default;
+        }
+
         private void Update()
         {
             // 現在のセルを描画用セルに反映
@@ -118,7 +136,7 @@ namespace Tetris.Logic
             {
                 for (int j = 0; j < _size.y; j++)
                 {
-                    _drawingCells[i, j].Block = GetCell(i, j).Block;
+                    GetDrawingCell(i, j).Block = GetCell(i, j).Block;
                 }
             }
 
@@ -129,7 +147,10 @@ namespace Tetris.Logic
 
                 foreach (var position in _currentTetrimino.BlockPositions)
                 {
-                    _drawingCells[position.x, position.y].Block = block;
+                    if (GetDrawingCell(position.x, position.y) is {} drawingCell)
+                    {
+                        drawingCell.Block = block;
+                    }
                 }
             }
 
@@ -148,9 +169,12 @@ namespace Tetris.Logic
                     _tetriminoPreviews.Enqueue(_tetriminos.Current);
                 }
                 
-                if (_tetriminoPreviews.Count > 0) {
+                if (_tetriminoPreviews.Count > 0)
+                {
                     Debug.Log($"Next: {_tetriminoPreviews.Select(x => x.ToString()).Aggregate((result, current) => result + current)}");
                 }
+
+                _onUpdatePreviews.OnNext(_tetriminoPreviews.AsEnumerable());
             }
             else
             {
@@ -372,6 +396,7 @@ namespace Tetris.Logic
                 _holdTetrimino = _currentTetrimino;
                 _holdTetrimino.Initialize();
 
+                _onUpdateHold.OnNext(_holdTetrimino);
                 Debug.Log($"Hold: {_holdTetrimino}");
 
                 Next();
@@ -381,6 +406,7 @@ namespace Tetris.Logic
                 (_currentTetrimino, _holdTetrimino) = (_holdTetrimino, _currentTetrimino);
                 _holdTetrimino?.Initialize();
 
+                _onUpdateHold.OnNext(_holdTetrimino);
                 Debug.Log($"Hold: {_holdTetrimino}");
             }
 
@@ -392,7 +418,11 @@ namespace Tetris.Logic
         public void Dispose()
         {
             _onUpdateCells.OnCompleted();
+            _onUpdatePreviews.OnCompleted();
+            _onUpdateHold.OnCompleted();
             _onUpdateCells.Dispose();
+            _onUpdatePreviews.Dispose();
+            _onUpdateHold.Dispose();
         }
     }
 }

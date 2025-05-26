@@ -9,24 +9,26 @@ namespace Tetris.System
 {
     public class GameLifetimeScope : LifetimeScope
     {
-        [Header("設定")]
-        [SerializeField] private Settings _settings;
+        [Header("盤面セレクタ")]
+        [SerializeField] private BoardSelector _boardSelector;
+
+        [Header("オブジェクト管理クラス")]
+        [SerializeField] private ObjectManager _objectManager;
 
         protected override void Configure(IContainerBuilder builder)
         {
             // MVPパターン
-            builder.RegisterInstance(_settings.CreateBoard());
+            builder.RegisterInstance(_boardSelector.CurrentBoardCreator.CreateBoard());
             builder.RegisterEntryPoint<BoardPresenter>(Lifetime.Singleton);
+            builder.RegisterEntryPoint<BannerPresenter>(Lifetime.Singleton);
             builder.Register<BoardDrawer>(Lifetime.Singleton);
+            builder.Register<BannerDrawer>(Lifetime.Singleton);
 
             // 入力イベントハンドラ
             builder.Register<InputHandler>(Lifetime.Singleton);
 
-            // セルのプレハブ
-            builder.RegisterComponent(_settings.CellPrefab);
-
-            var transform = new GameObject("Cells").transform;
-            builder.RegisterComponent(transform);
+            // オブジェクト管理クラス
+            builder.RegisterInstance(_objectManager);
 
             // プレイヤー
             builder.RegisterEntryPoint<GamePlayer>(Lifetime.Singleton);

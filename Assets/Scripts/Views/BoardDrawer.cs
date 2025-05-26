@@ -17,10 +17,10 @@ namespace Tetris.View
         private CellBehaviour[,] _cellBehaviours;
 
         [Inject]
-        public BoardDrawer(CellBehaviour cellPrefab, Transform cellParent)
+        public BoardDrawer(ObjectManager objectManager)
         {
-            _cellPrefab = cellPrefab;
-            _cellParent = cellParent;
+            _cellPrefab = objectManager.CellPrefab;
+            _cellParent = objectManager.CellParent;
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Tetris.View
 
             // 盤面が画面に収まるようにカメラを調整
             Camera.main.transform.position = new Vector3((size.x - 1) * 0.5f, (size.y - 1) * 0.5f, -10);
-            Camera.main.orthographicSize = Mathf.Max(size.x * 0.3f, size.y * 0.5f);
+            Camera.main.orthographicSize = Mathf.Max(size.x * 0.36f, size.y * 0.5f);
         }
 
         private void Update(Cell[,] cells)

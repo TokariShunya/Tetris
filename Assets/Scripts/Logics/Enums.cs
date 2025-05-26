@@ -19,7 +19,8 @@ namespace Tetris.Logic
     public static class RotationExtension {
         public static int Length(this Rotation rotation) => Enum.GetValues(typeof(Rotation)).Length;
 
-        public static void Rotate(ref this Rotation rotation, Direction direction) {
+        public static void Rotate(ref this Rotation rotation, Direction direction)
+        {
             rotation = direction switch {
                 Direction.Left => (Rotation)(((int)rotation + (rotation.Length() - 1)) % rotation.Length()),
                 Direction.Right => (Rotation)(((int)rotation + 1) % rotation.Length()),

@@ -1,28 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using Tetris.Logic;
-using Tetris.View;
 using UnityEngine;
+using Tetris.Logic;
 
 namespace Tetris.System
 {
-    /// <summary>
-    /// 盤面設定
-    /// </summary>
     [CreateAssetMenu]
-    public class Settings : ScriptableObject
+    public sealed class DefaultBoardCreator : BoardCreator
     {
-        [SerializeField] private Vector2Int _boardSize;
-        [SerializeField] private Vector2Int _initialPosition;
-
-        [SerializeField] private CellBehaviour _cellPrefab;
-        public CellBehaviour CellPrefab => _cellPrefab;
-
         /// <summary>
         /// 盤面インスタンスを生成
         /// </summary>
         /// <returns></returns>
-        public Board CreateBoard()
+        public override Board CreateBoard()
         {
             var initialBoard = new bool[_boardSize.x, _boardSize.y];
 
