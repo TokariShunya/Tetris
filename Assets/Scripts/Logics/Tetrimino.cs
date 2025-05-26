@@ -218,7 +218,7 @@ namespace Tetris.Logic
         private readonly static Block _block = new Block(new Color32(255, 0, 255, 255));
         public override Block Block => _block;
 
-        public override string ToString() => $"<b><color=#{ColorUtility.ToHtmlStringRGB(_block.Color)}>T</color></b>";
+        public override string ToString() => GetColoredString("T");
     }
 
     /// <summary>
@@ -231,7 +231,7 @@ namespace Tetris.Logic
         private readonly static Block _block = new Block(new Color32(0, 221, 0, 255));
         public override Block Block => _block;
 
-        public override string ToString() => GetColoredString("T");
+        public override string ToString() => GetColoredString("S");
     }
 
     /// <summary>
