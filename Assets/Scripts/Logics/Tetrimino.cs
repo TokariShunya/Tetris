@@ -61,8 +61,6 @@ namespace Tetris.Logic
                         (_coordinates[i].x, _coordinates[i].y) = (-_coordinates[i].y, _coordinates[i].x);
                     }
 
-                    _rotation = (Rotation)(((int)_rotation + (_rotation.Length() - 1)) % _rotation.Length());
-
                     break;
                 case Direction.Right:
 
@@ -71,10 +69,10 @@ namespace Tetris.Logic
                         (_coordinates[i].x, _coordinates[i].y) = (_coordinates[i].y, -_coordinates[i].x);
                     }
 
-                    _rotation = (Rotation)(((int)_rotation + 1) % _rotation.Length());
-
                     break;
             }
+
+            _rotation.Rotate(direction);
         }
 
         public virtual bool SuperRotationCorrect(Direction direction)
@@ -307,8 +305,6 @@ namespace Tetris.Logic
                         (_centerOriginCoordinates[i].x, _centerOriginCoordinates[i].y) = (-_centerOriginCoordinates[i].y, _centerOriginCoordinates[i].x);
                     }
 
-                    _rotation = (Rotation)(((int)_rotation + (_rotation.Length() - 1)) % _rotation.Length());
-
                     break;
                 case Direction.Right:
 
@@ -317,10 +313,10 @@ namespace Tetris.Logic
                         (_centerOriginCoordinates[i].x, _centerOriginCoordinates[i].y) = (_centerOriginCoordinates[i].y, -_centerOriginCoordinates[i].x);
                     }
 
-                    _rotation = (Rotation)(((int)_rotation + 1) % _rotation.Length());
-
                     break;
             }
+
+            _rotation.Rotate(direction);
 
             for (int i = 0; i < _coordinates.Length; i++)
             {
