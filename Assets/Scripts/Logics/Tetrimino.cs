@@ -22,7 +22,6 @@ namespace Tetris.Logic
 
         protected Rotation _rotation;
         protected Rotation _appliedRotation;
-        protected readonly static int _rotationCount = Enum.GetValues(typeof(Rotation)).Length;
 
         protected int _superRotationIndex;
         protected Vector2Int _superRotationCorrection;
@@ -49,6 +48,8 @@ namespace Tetris.Logic
 
         public virtual Block Block => default;
 
+        protected string GetColoredString(string s) => $"<b><color=#{ColorUtility.ToHtmlStringRGB(Block?.Color ?? Color.white)}>{s}</color></b>";
+
         public virtual void Rotate(Direction direction)
         {
             switch (direction)
@@ -60,7 +61,6 @@ namespace Tetris.Logic
                         (_coordinates[i].x, _coordinates[i].y) = (-_coordinates[i].y, _coordinates[i].x);
                     }
 
-                    _rotation = (Rotation)(((int)_rotation + (_rotationCount - 1)) % _rotationCount);
                     break;
                 case Direction.Right:
 
@@ -69,9 +69,10 @@ namespace Tetris.Logic
                         (_coordinates[i].x, _coordinates[i].y) = (_coordinates[i].y, -_coordinates[i].x);
                     }
 
-                    _rotation = (Rotation)(((int)_rotation + 1) % _rotationCount);
                     break;
             }
+
+            _rotation.Rotate(direction);
         }
 
         public virtual bool SuperRotationCorrect(Direction direction)
@@ -230,7 +231,7 @@ namespace Tetris.Logic
         private readonly static Block _block = new Block(new Color32(0, 221, 0, 255));
         public override Block Block => _block;
 
-        public override string ToString() => $"<b><color=#{ColorUtility.ToHtmlStringRGB(_block.Color)}>S</color></b>";
+        public override string ToString() => GetColoredString("T");
     }
 
     /// <summary>
@@ -243,7 +244,7 @@ namespace Tetris.Logic
         private readonly static Block _block = new Block(new Color32(255, 0, 0, 255));
         public override Block Block => _block;
 
-        public override string ToString() => $"<b><color=#{ColorUtility.ToHtmlStringRGB(_block.Color)}>Z</color></b>";
+        public override string ToString() => GetColoredString("Z");
     }
 
     /// <summary>
@@ -256,7 +257,7 @@ namespace Tetris.Logic
         private readonly static Block _block = new Block(new Color32(255, 140, 0, 255));
         public override Block Block => _block;
 
-        public override string ToString() => $"<b><color=#{ColorUtility.ToHtmlStringRGB(_block.Color)}>L</color></b>";
+        public override string ToString() => GetColoredString("L");
     }
 
     /// <summary>
@@ -269,7 +270,7 @@ namespace Tetris.Logic
         private readonly static Block _block = new Block(new Color32(30, 128, 255, 255));
         public override Block Block => _block;
 
-        public override string ToString() => $"<b><color=#{ColorUtility.ToHtmlStringRGB(_block.Color)}>J</color></b>";
+        public override string ToString() => GetColoredString("J");
     }
 
     /// <summary>
@@ -304,7 +305,6 @@ namespace Tetris.Logic
                         (_centerOriginCoordinates[i].x, _centerOriginCoordinates[i].y) = (-_centerOriginCoordinates[i].y, _centerOriginCoordinates[i].x);
                     }
 
-                    _rotation = (Rotation)(((int)_rotation + (_rotationCount - 1)) % _rotationCount);
                     break;
                 case Direction.Right:
 
@@ -313,9 +313,10 @@ namespace Tetris.Logic
                         (_centerOriginCoordinates[i].x, _centerOriginCoordinates[i].y) = (_centerOriginCoordinates[i].y, -_centerOriginCoordinates[i].x);
                     }
 
-                    _rotation = (Rotation)(((int)_rotation + 1) % _rotationCount);
                     break;
             }
+
+            _rotation.Rotate(direction);
 
             for (int i = 0; i < _coordinates.Length; i++)
             {
@@ -421,7 +422,7 @@ namespace Tetris.Logic
             base.Initialize();
         }
 
-        public override string ToString() => $"<b><color=#{ColorUtility.ToHtmlStringRGB(_block.Color)}>I</color></b>";
+        public override string ToString() => GetColoredString("I");
     }
 
     /// <summary>
@@ -436,6 +437,6 @@ namespace Tetris.Logic
 
         public override void Rotate(Direction direction) { }
 
-        public override string ToString() => $"<b><color=#{ColorUtility.ToHtmlStringRGB(_block.Color)}>O</color></b>";
+        public override string ToString() => GetColoredString("O");
     }
 }

@@ -377,7 +377,7 @@ namespace Tetris.Logic
             else
             {
                 (_currentTetrimino, _holdTetrimino) = (_holdTetrimino, _currentTetrimino);
-                _holdTetrimino.Initialize();
+                _holdTetrimino?.Initialize();
 
                 Debug.Log($"Hold: {_holdTetrimino}");
             }
