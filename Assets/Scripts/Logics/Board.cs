@@ -147,8 +147,10 @@ namespace Tetris.Logic
                 {
                     _tetriminoPreviews.Enqueue(_tetriminos.Current);
                 }
-
-                Debug.Log($"Next: {_tetriminoPreviews.Select(x => x.ToString()).Aggregate((result, current) => result + current)}");
+                
+                if (_tetriminoPreviews.Count > 0) {
+                    Debug.Log($"Next: {_tetriminoPreviews.Select(x => x.ToString()).Aggregate((result, current) => result + current)}");
+                }
             }
             else
             {
