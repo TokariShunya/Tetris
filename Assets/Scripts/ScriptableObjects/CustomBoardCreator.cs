@@ -14,9 +14,7 @@ namespace Tetris.System
         /// <returns></returns>
         public override Board CreateBoard()
         {
-            var initialBoard = new bool[_boardSize.x, _boardSize.y];
-
-            return new Board(initialBoard, TetriminoSequence());
+            return new Board(CreateInitialBlocksArray(), TetriminoSequence());
         }
 
         private IEnumerable<Tetrimino> TetriminoSequence()
