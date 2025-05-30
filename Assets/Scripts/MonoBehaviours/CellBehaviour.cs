@@ -11,6 +11,7 @@ namespace Tetris.View
     public sealed class CellBehaviour : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer _blockRenderer;
+        [SerializeField] private SpriteRenderer _axisSymbolRenderer;
 
         /// <summary>
         /// セルの状態を設定
@@ -18,7 +19,21 @@ namespace Tetris.View
         /// <param name="cell"></param>
         public void Set(Cell cell)
         {
-            _blockRenderer.color = cell.IsEmpty ? Color.black : cell.Block.Color;
+            if (!cell.IsEmpty)
+            {
+                _blockRenderer.color = cell.Block.Color;
+
+                if (cell.Block.HasAxisSymbol)
+                {
+                    _axisSymbolRenderer.color = cell.Block.AxisSymbolColor;
+                }
+
+                _axisSymbolRenderer.gameObject.SetActive(cell.Block.HasAxisSymbol);
+            }
+            else {
+                _blockRenderer.color = Color.black;
+                _axisSymbolRenderer.gameObject.SetActive(false);
+            }
         }
     }
 }

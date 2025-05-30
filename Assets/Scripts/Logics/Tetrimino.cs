@@ -44,10 +44,11 @@ namespace Tetris.Logic
             _superRotationCorrection = Vector2Int.zero;
         }
 
-        public IEnumerable<Vector2Int> BlockInitialCoordinates => _initialCoordinates;
-        public IEnumerable<Vector2Int> BlockPositions => _coordinates.Select(x => x + _position + _superRotationCorrection);
+        protected virtual Block Block => default;
+        protected virtual Block AxisBlock => default;
 
-        public virtual Block Block => default;
+        public virtual IEnumerable<(Vector2Int, Block)> GetInitialBlocks(bool displayAxis = false) => _initialCoordinates.Select(x => (x, (x.x == 0 && x.y == 0 && displayAxis) ? AxisBlock : Block));
+        public virtual IEnumerable<(Vector2Int, Block)> GetBlocks(bool displayAxis = false) => _coordinates.Select(x => (x + _position + _superRotationCorrection, (x.x == 0 && x.y == 0 && displayAxis) ? AxisBlock : Block));
 
         protected string GetColoredString(string s) => $"<b><color=#{ColorUtility.ToHtmlStringRGB(Block?.Color ?? Color.white)}>{s}</color></b>";
 
@@ -217,7 +218,9 @@ namespace Tetris.Logic
         public TetriminoT(Vector2Int initialPosition) : base(new Vector2Int[] { new Vector2Int(0, 1), new Vector2Int(-1, 0), new Vector2Int(0, 0), new Vector2Int(1, 0) }, initialPosition) { }
 
         private readonly static Block _block = new Block(new Color32(255, 0, 255, 255));
-        public override Block Block => _block;
+        private readonly static Block _axisBlock = new Block(new Color32(255, 0, 255, 255), new Color32(128, 0, 128, 255));
+        protected override Block Block => _block;
+        protected override Block AxisBlock => _axisBlock;
 
         public override string ToString() => GetColoredString("T");
     }
@@ -230,7 +233,9 @@ namespace Tetris.Logic
         public TetriminoS(Vector2Int initialPosition) : base(new Vector2Int[] { new Vector2Int(0, 1), new Vector2Int(1, 1), new Vector2Int(-1, 0), new Vector2Int(0, 0) }, initialPosition) { }
 
         private readonly static Block _block = new Block(new Color32(0, 221, 0, 255));
-        public override Block Block => _block;
+        private readonly static Block _axisBlock = new Block(new Color32(0, 221, 0, 255), new Color32(0, 110, 0, 255));
+        protected override Block Block => _block;
+        protected override Block AxisBlock => _axisBlock;
 
         public override string ToString() => GetColoredString("S");
     }
@@ -243,7 +248,9 @@ namespace Tetris.Logic
         public TetriminoZ(Vector2Int initialPosition) : base(new Vector2Int[] { new Vector2Int(-1, 1), new Vector2Int(0, 1), new Vector2Int(0, 0), new Vector2Int(1, 0) }, initialPosition) { }
 
         private readonly static Block _block = new Block(new Color32(255, 0, 0, 255));
-        public override Block Block => _block;
+        private readonly static Block _axisBlock = new Block(new Color32(255, 0, 0, 255), new Color32(128, 0, 0, 255));
+        protected override Block Block => _block;
+        protected override Block AxisBlock => _axisBlock;
 
         public override string ToString() => GetColoredString("Z");
     }
@@ -256,7 +263,9 @@ namespace Tetris.Logic
         public TetriminoL(Vector2Int initialPosition) : base(new Vector2Int[] { new Vector2Int(1, 1), new Vector2Int(-1, 0), new Vector2Int(0, 0), new Vector2Int(1, 0) }, initialPosition) { }
 
         private readonly static Block _block = new Block(new Color32(255, 140, 0, 255));
-        public override Block Block => _block;
+        private readonly static Block _axisBlock = new Block(new Color32(255, 140, 0, 255), new Color32(128, 70, 0, 255));
+        protected override Block Block => _block;
+        protected override Block AxisBlock => _axisBlock;
 
         public override string ToString() => GetColoredString("L");
     }
@@ -269,7 +278,9 @@ namespace Tetris.Logic
         public TetriminoJ(Vector2Int initialPosition) : base(new Vector2Int[] { new Vector2Int(-1, 1), new Vector2Int(-1, 0), new Vector2Int(0, 0), new Vector2Int(1, 0) }, initialPosition) { }
 
         private readonly static Block _block = new Block(new Color32(30, 128, 255, 255));
-        public override Block Block => _block;
+        private readonly static Block _axisBlock = new Block(new Color32(30, 128, 255, 255), new Color32(15, 64, 128, 255));
+        protected override Block Block => _block;
+        protected override Block AxisBlock => _axisBlock;
 
         public override string ToString() => GetColoredString("J");
     }
@@ -293,7 +304,8 @@ namespace Tetris.Logic
         }
 
         private readonly static Block _block = new Block(new Color32(0, 255, 255, 255));
-        public override Block Block => _block;
+        protected override Block Block => _block;
+        protected override Block AxisBlock => _block;
 
         public override void Rotate(Direction direction)
         {
@@ -434,7 +446,8 @@ namespace Tetris.Logic
         public TetriminoO(Vector2Int initialPosition) : base(new Vector2Int[] { new Vector2Int(1, 0), new Vector2Int(1, 1), new Vector2Int(0, 0), new Vector2Int(0, 1) }, initialPosition) { }
 
         private readonly static Block _block = new Block(new Color32(255, 255, 0, 255));
-        public override Block Block => _block;
+        protected override Block Block => _block;
+        protected override Block AxisBlock => _block;
 
         public override void Rotate(Direction direction) { }
 

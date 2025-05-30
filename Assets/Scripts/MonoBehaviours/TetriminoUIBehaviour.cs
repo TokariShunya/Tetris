@@ -37,9 +37,9 @@ namespace Tetris.View
 
             if (tetrimino is null) return;
 
-            foreach (var coordinate in tetrimino.BlockInitialCoordinates.Select(x => x + _origin))
+            foreach (var (coordinate, block) in tetrimino.GetInitialBlocks().Select(x => (x.Item1 + _origin, x.Item2)))
             {
-                _blockImage[coordinate.x + coordinate.y * _size.x].color = tetrimino.Block?.Color ?? Color.black;
+                _blockImage[coordinate.x + coordinate.y * _size.x].color = block.Color;
             }
 
         }

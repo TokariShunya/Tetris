@@ -140,12 +140,10 @@ namespace Tetris.Logic
                 }
             }
 
+            // 現在のテトリミノを描画用セルに反映
             if (_currentTetrimino is not null)
             {
-                // 現在のテトリミノを描画用セルに反映
-                var block = _currentTetrimino.Block;
-
-                foreach (var position in _currentTetrimino.BlockPositions)
+                foreach (var (position, block) in _currentTetrimino.GetBlocks(true))
                 {
                     if (GetDrawingCell(position.x, position.y) is {} drawingCell)
                     {
@@ -225,9 +223,7 @@ namespace Tetris.Logic
         private void Apply()
         {
             // 現在のテトリミノをセルに反映
-            var block = _currentTetrimino.Block;
-
-            foreach (var position in _currentTetrimino.BlockPositions)
+            foreach (var (position, block) in _currentTetrimino.GetBlocks())
             {
                 GetCell(position.x, position.y).Block = block;
             }
@@ -242,7 +238,7 @@ namespace Tetris.Logic
 
             _currentTetrimino.Drop();
 
-            var positions = _currentTetrimino.BlockPositions;
+            var positions = _currentTetrimino.GetBlocks().Select(x => x.Item1);
 
             foreach (var position in positions)
             {
@@ -250,13 +246,13 @@ namespace Tetris.Logic
                 {
                     _currentTetrimino.Revert();
 
-                    Apply();
-                    ClearLines();
-                    Next();
+                    // Apply();
+                    // ClearLines();
+                    // Next();
 
-                    _canHoldTetrimino = true;
+                    // _canHoldTetrimino = true;
 
-                    Update();
+                    // Update();
                     return;
                 }
             }
@@ -277,7 +273,7 @@ namespace Tetris.Logic
             {
                 _currentTetrimino.Drop();
 
-                var positions = _currentTetrimino.BlockPositions;
+                var positions = _currentTetrimino.GetBlocks().Select(x => x.Item1);
 
                 foreach (var position in positions)
                 {
@@ -310,7 +306,7 @@ namespace Tetris.Logic
 
             _currentTetrimino.Move(direction);
 
-            var positions = _currentTetrimino.BlockPositions;
+            var positions = _currentTetrimino.GetBlocks().Select(x => x.Item1);
 
             foreach (var position in positions)
             {
@@ -338,7 +334,7 @@ namespace Tetris.Logic
 
             _currentTetrimino.Rotate(direction);
 
-            var positions = _currentTetrimino.BlockPositions;
+            var positions = _currentTetrimino.GetBlocks().Select(x => x.Item1);
 
             foreach (var position in positions)
             {
@@ -361,7 +357,7 @@ namespace Tetris.Logic
             {
                 canRotate = true;
 
-                positions = _currentTetrimino.BlockPositions;
+                positions = _currentTetrimino.GetBlocks().Select(x => x.Item1);
 
                 foreach (var position in positions)
                 {
